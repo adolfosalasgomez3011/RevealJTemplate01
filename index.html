@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hatch Advisory Presentation</title>
+
+    <!-- Reveal.js core styles -->
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/white.css" />
+
+    <!-- Custom Hatch theme -->
+    <link rel="stylesheet" href="css/lux.css" />
+
+    <!-- Highlight plugin -->
+    <script src="dist/reveal.js"></script>
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+
+  <body>
+    <header class="hatch-header">
+      <img src="img/logo.png" alt="Hatch Logo" class="hatch-logo">
+      <span class="hatch-title">Hatch Advisory</span>
+    </header>
+  
+    <!-- FIXED: Title + Media Row placed outside Reveal -->
+    <!-- REMOVE THIS SPACER -->
+<!-- <div style="height: 60px;"></div> -->
+
+    <div class="hatch-title-container">
+        <h2 class="hatch-title-slide">Competency Matrix Review</h2>
+    </div>
+
+        
+    <div class="hatch-media-container" id="media-row">
+      <div class="hatch-media-row">
+        <img src="img/plant01.jpg" alt="Plant">
+        <video src="media/Bulldozer Logo Reveal.mp4" autoplay muted loop playsinline></video>
+        <img src="img/minepic01.jpg" alt="Mine">
+          
+      </div>
+    </div> <!-- ✅ THIS closing tag was missing -->
+    
+      
+    <!-- Reveal.js Slides -->
+    <div class="reveal hatch-reveal-patched">
+      <div class="slides">
+        <section data-markdown="slides.md"
+            data-prevent-scaling="true"
+            data-separator="^\r?\n---\r?\n$"
+            data-separator-vertical="^\r?\n--\r?\n$"
+            data-separator-notes="^Note:"
+            data-charset="utf-8">
+        </section>
+      </div>
+      
+    </div>
+
+    <footer class="hatch-global-footer">
+      <div class="footer-left">
+        © Hatch 2023. All rights reserved.
+      </div>
+      <div class="footer-right">
+        <span id="footer-date"></span>
+        <img src="img/logo.png" alt="Hatch Logo">
+        <span class="slide-number-footer"></span>
+      </div>
+    </footer>
+    
+<!-- Reveal.js initialization -->
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script src="plugin/notes/notes.js"></script>
+
+<script>
+Reveal.initialize({
+  hash: true,
+  controls: true,
+  progress: true,
+  disableLayout: true,
+  slideNumber: true,
+  scrollOverflow: false,
+  plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+});
+</script>
+
+  </body>
+
+  <script>
+    // Update footer with current date
+    document.addEventListener('DOMContentLoaded', function () {
+      const dateSpan = document.getElementById("footer-date");
+      const today = new Date();
+      const formatted = today.toLocaleDateString('en-GB');
+      dateSpan.textContent = formatted;
+    });
+  
+    // Sync slide number in footer
+    Reveal.on('slidechanged', function (event) {
+      const current = Reveal.getIndices().h + 1;
+      const total = Reveal.getTotalSlides();
+      document.querySelector('.slide-number-footer').textContent = `Slide ${current}/${total}`;
+    });
+  
+    // Trigger once on load
+    Reveal.on('ready', function () {
+      const current = Reveal.getIndices().h + 1;
+      const total = Reveal.getTotalSlides();
+      document.querySelector('.slide-number-footer').textContent = `Slide ${current}/${total}`;
+    });
+  </script>
+  <script>
+    Reveal.on('ready', updateSlideLayout);
+    Reveal.on('slidechanged', updateSlideLayout);
+  
+    function updateSlideLayout(event) {
+      const index = Reveal.getIndices().h;
+      const media = document.getElementById('media-row');
+      const scrollSlide = document.querySelector('.scrollable-slide.present');
+  
+      // Show media only on first slide
+      if (index === 0) {
+        media.style.display = '';
+        if (scrollSlide) {
+          scrollSlide.style.height = 'calc(100vh - 520px)';
+        }
+      } else {
+        media.style.display = 'none';
+        if (scrollSlide) {
+          scrollSlide.style.height = 'calc(100vh - 240px)'; // 60px header + 180px title
+        }
+      }
+    }
+  </script>
+  <script>
+    Reveal.on('slidechanged', event => {
+      const titleContainer = document.querySelector('.hatch-title-slide');
+      const currentSlide = event.currentSlide;
+    
+      // Find first H2 or H1 in the slide
+      const foundTitle = currentSlide.querySelector('h2') || currentSlide.querySelector('h1');
+      
+      if (foundTitle && titleContainer) {
+        titleContainer.textContent = foundTitle.textContent;
+        foundTitle.style.display = 'none'; // hide original title inside slide
+      }
+    });
+    </script>
+    
+    
+</html>
