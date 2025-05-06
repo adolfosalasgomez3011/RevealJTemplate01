@@ -2,6 +2,7 @@
 
 # Enter Your Presentation Title Here
 
+## THIS IS YOUR FIRST SLIDE
 + Enter your introductory text here  
 + Use this slide to outline the purpose  
 + Or provide context for the presentation  
